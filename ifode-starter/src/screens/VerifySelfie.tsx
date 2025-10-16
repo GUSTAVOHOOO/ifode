@@ -1,18 +1,62 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import Button from '@/components/Button';
-import { useNavigation } from '@react-navigation/native';
+import { colors, radius, spacing } from '@/theme/tokens';
+import type { RootStackParamList } from '@/navigation/AppNavigator';
 
 export default function VerifySelfie() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
   return (
-    <View className="flex-1 bg-black px-6 py-10">
-      <Text className="text-white text-2xl font-bold mb-2">Verify you are real</Text>
-      <Text className="text-[#9E9E9E] mb-6">Take a quick selfie to confirm your identity.</Text>
-      <View className="flex-1 rounded-2xl bg-[#1A1A1A] border border-[#2E2E2E]" />
-      <View className="mt-6">
-        <Button label="Continue" onPress={() => navigation.navigate('Feed' as never)} />
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.content}>
+        <View>
+          <Text style={styles.title}>Verify you are real</Text>
+          <Text style={styles.subtitle}>Take a quick selfie to confirm your identity.</Text>
+        </View>
+        <View style={styles.placeholder} />
+        <Button
+          label="Continue"
+          onPress={() => navigation.navigate('Feed')}
+          style={styles.fullWidth}
+        />
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
+  content: {
+    flex: 1,
+    paddingHorizontal: spacing * 3,
+    paddingVertical: spacing * 5,
+    justifyContent: 'space-between',
+  },
+  title: {
+    color: colors.textPrimary,
+    fontSize: 24,
+    fontWeight: '700',
+  },
+  subtitle: {
+    color: colors.textSecondary,
+    marginTop: spacing,
+  },
+  placeholder: {
+    flex: 1,
+    marginTop: spacing * 3,
+    borderRadius: radius,
+    borderWidth: 1,
+    borderColor: colors.border,
+    backgroundColor: colors.surface,
+  },
+  fullWidth: {
+    marginTop: spacing * 3,
+    width: '100%',
+  },
+});

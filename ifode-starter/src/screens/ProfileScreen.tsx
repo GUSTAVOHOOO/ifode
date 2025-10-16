@@ -1,14 +1,63 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import Button from '@/components/Button';
+import { colors, radius, spacing } from '@/theme/tokens';
+import type { RootStackParamList } from '@/navigation/AppNavigator';
 
 export default function ProfileScreen() {
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
   return (
-    <View className="flex-1 bg-black px-6 py-10">
-      <Text className="text-white text-2xl font-bold mb-2">Your profile</Text>
-      <Text className="text-[#9E9E9E] mb-6">Edit preferences, limits, and privacy.</Text>
-      <View className="flex-1 rounded-2xl bg-[#1A1A1A] border border-[#2E2E2E]" />
-      <Button label="Go to Feed" variant="secondary" />
-    </View>
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.content}>
+        <View>
+          <Text style={styles.title}>Your profile</Text>
+          <Text style={styles.subtitle}>Edit preferences, limits, and privacy.</Text>
+        </View>
+        <View style={styles.placeholder} />
+        <Button
+          label="Go to Feed"
+          variant="secondary"
+          onPress={() => navigation.navigate('Feed')}
+          style={styles.fullWidth}
+        />
+      </View>
+    </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
+  content: {
+    flex: 1,
+    paddingHorizontal: spacing * 3,
+    paddingVertical: spacing * 5,
+    justifyContent: 'space-between',
+  },
+  title: {
+    color: colors.textPrimary,
+    fontSize: 24,
+    fontWeight: '700',
+  },
+  subtitle: {
+    color: colors.textSecondary,
+    marginTop: spacing,
+  },
+  placeholder: {
+    flex: 1,
+    marginTop: spacing * 3,
+    borderRadius: radius,
+    borderWidth: 1,
+    borderColor: colors.border,
+    backgroundColor: colors.surface,
+  },
+  fullWidth: {
+    marginTop: spacing * 3,
+    width: '100%',
+  },
+});

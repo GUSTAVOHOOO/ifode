@@ -1,15 +1,49 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import Button from '@/components/Button';
-import { useNavigation } from '@react-navigation/native';
+import { colors, spacing } from '@/theme/tokens';
+import type { RootStackParamList } from '@/navigation/AppNavigator';
 
 export default function MatchScreen() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
   return (
-    <View className="flex-1 bg-black items-center justify-center px-6">
-      <Text className="text-white text-3xl font-bold mb-2">Delivery match confirmed</Text>
-      <Text className="text-[#9E9E9E] mb-6">Say hi and set the plan.</Text>
-      <Button label="Start Chat" onPress={() => navigation.navigate('Chat' as never)} />
-    </View>
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.content}>
+        <Text style={styles.title}>Delivery match confirmed</Text>
+        <Text style={styles.subtitle}>Say hi and set the plan.</Text>
+        <Button label="Start Chat" onPress={() => navigation.navigate('Chat')} style={styles.button} />
+      </View>
+    </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
+  content: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: spacing * 3,
+  },
+  title: {
+    color: colors.textPrimary,
+    fontSize: 26,
+    fontWeight: '700',
+    textAlign: 'center',
+    marginBottom: spacing * 1.5,
+  },
+  subtitle: {
+    color: colors.textSecondary,
+    textAlign: 'center',
+    marginBottom: spacing * 4,
+  },
+  button: {
+    minWidth: 200,
+  },
+});

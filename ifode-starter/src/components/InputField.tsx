@@ -1,14 +1,27 @@
 import React from 'react';
-import { TextInput } from 'react-native';
+import { TextInput, TextInputProps, StyleSheet } from 'react-native';
+import { colors, radius, spacing } from '@/theme/tokens';
 
-type Props = React.ComponentProps<typeof TextInput> & { className?: string };
+type Props = TextInputProps;
 
-export default function InputField(props: Props) {
+export default function InputField({ style, ...rest }: Props) {
   return (
     <TextInput
-      placeholderTextColor="#9E9E9E"
-      className={`bg-[#2E2E2E] text-white border border-white/20 rounded-xl px-4 py-3 ${props.className || ''}`}
-      {...props}
+      placeholderTextColor={colors.textSecondary}
+      style={[styles.input, style]}
+      {...rest}
     />
   );
 }
+
+const styles = StyleSheet.create({
+  input: {
+    backgroundColor: colors.surfaceMuted,
+    color: colors.textPrimary,
+    borderRadius: radius,
+    paddingHorizontal: spacing * 2,
+    paddingVertical: spacing * 1.5,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+});

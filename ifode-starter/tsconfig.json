@@ -8,6 +8,10 @@
     "isolatedModules": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "lib": ["esnext"],
     "types": [
       "react",
       "react-native",
