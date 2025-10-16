@@ -1,34 +1,85 @@
 import React from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, StyleSheet, ImageSourcePropType } from 'react-native';
 import Button from './Button';
 import { Flame } from 'lucide-react-native';
+import { colors, radius, spacing } from '@/theme/tokens';
 
 type Props = {
   name: string;
   age: number;
   distance: string;
   match: number;
-  photo: any;
+  photo: ImageSourcePropType;
   onNow?: () => void;
   onLater?: () => void;
 };
 
 export default function ProfileCard({ name, age, distance, match, photo, onNow, onLater }: Props) {
   return (
-    <View className="mb-6 rounded-2xl bg-[#1A1A1A] p-4 border border-[#2E2E2E]">
-      <Image source={photo} className="w-full h-72 rounded-2xl mb-3" resizeMode="cover" />
-      <View className="flex-row justify-between items-center mb-2">
-        <Text className="text-white text-lg font-semibold">{name}, {age}</Text>
-        <View className="flex-row items-center">
-          <Flame color="#FF2B2B" size={18} />
-          <Text className="text-red-500 ml-1">{match}%</Text>
+    <View style={styles.card}>
+      <Image source={photo} style={styles.photo} resizeMode="cover" />
+      <View style={styles.headerRow}>
+        <Text style={styles.nameText}>
+          {name}, {age}
+        </Text>
+        <View style={styles.matchBadge}>
+          <Flame color={colors.accent} size={18} />
+          <Text style={styles.matchText}>{match}%</Text>
         </View>
       </View>
-      <Text className="text-[#9E9E9E] mb-3">{distance} away</Text>
-      <View className="flex-row justify-between gap-3">
-        <Button label="Now" variant="primary" onPress={onNow} />
-        <Button label="Later" variant="secondary" onPress={onLater} />
+      <Text style={styles.metaText}>{distance} away</Text>
+      <View style={styles.actions}>
+        <Button label="Now" variant="primary" onPress={onNow} style={styles.actionButton} />
+        <Button label="Later" variant="secondary" onPress={onLater} style={styles.actionButton} />
       </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  card: {
+    backgroundColor: colors.surface,
+    borderRadius: radius,
+    padding: spacing * 2,
+    borderWidth: 1,
+    borderColor: colors.border,
+    marginBottom: spacing * 3,
+  },
+  photo: {
+    width: '100%',
+    height: 288,
+    borderRadius: radius,
+    marginBottom: spacing * 1.5,
+  },
+  headerRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: spacing,
+  },
+  nameText: {
+    color: colors.textPrimary,
+    fontSize: 18,
+    fontWeight: '600',
+  },
+  matchBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  matchText: {
+    color: colors.accent,
+    marginLeft: spacing / 2,
+    fontWeight: '600',
+  },
+  metaText: {
+    color: colors.textSecondary,
+    marginBottom: spacing * 1.5,
+  },
+  actions: {
+    flexDirection: 'row',
+    gap: spacing * 1.5,
+  },
+  actionButton: {
+    flex: 1,
+  },
+});
